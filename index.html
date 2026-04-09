@@ -10,6 +10,10 @@
   <meta name="keywords" content="SBTI,人格测试,性格测试,心理测试,MBTI替代,15维度人格,趣味测评" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://sbt-i.com/" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -180,9 +184,29 @@
       max-width: none;
       margin: 0;
     }
+    .hero-mark {
+      width: 88px;
+      height: 88px;
+      border-radius: 24px;
+      display: block;
+      margin: 0 auto 18px;
+      box-shadow: 0 14px 32px rgba(77, 106, 83, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      background: #fff;
+      object-fit: cover;
+    }
     .hero-actions-single {
       justify-content: center;
       margin-top: 28px;
+    }
+
+    @media (max-width: 640px) {
+      .hero-mark {
+        width: 72px;
+        height: 72px;
+        border-radius: 20px;
+        margin-bottom: 16px;
+      }
     }
 
     button {
@@ -820,6 +844,7 @@
     <!-- ═══ Intro Screen ═══ -->
     <section id="intro" class="screen active" aria-label="测试介绍">
       <header class="hero card hero-minimal">
+        <img class="hero-mark" src="./android-chrome-512x512.png" alt="SBTI 图标" width="128" height="128" />
         <h1>MBTI已经过时，SBTI来了。</h1>
         <p class="sub">30道题 · 15个维度 · 测出你独一无二的人格代号</p>
         <div class="hero-actions hero-actions-single">
