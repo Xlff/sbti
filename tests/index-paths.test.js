@@ -44,8 +44,8 @@ assert(
   'Page title should prioritize SBTI for SEO'
 );
 assert(
-  html.includes('当前提供 SBTI、GBTI 与 CBTI'),
-  'Index metadata should still mention the other connected quizzes as secondary'
+  html.includes('站内同时提供 GBTI 与 CBTI'),
+  'Index metadata should still mention GBTI and CBTI as secondary quizzes'
 );
 assert(
   html.includes('https://www.googletagmanager.com/gtag/js?id=G-DDKP7PJBNV'),

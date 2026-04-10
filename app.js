@@ -143,8 +143,8 @@
         <div class="hero-grid">
           <div class="hero-copy">
             <span class="eyebrow">人格测试集合站</span>
-            <h1>SBTI 人格测试，为主站核心内容。</h1>
-            <p>这里以 <strong>SBTI</strong> 为核心测试，提供更完整的人格画像与结果解读；同时补充 <strong>GBTI</strong> 与 <strong>CBTI</strong> 两类趣味衍生测试，方便从不同语境了解自己的风格倾向。</p>
+            <h1>SBTI，人格测试里的另一种切法。</h1>
+            <p><strong>SBTI</strong> 是本站的主测试。它不急着把你塞进一个大类标签里，而是从自我、情感、态度、行动和社交五个方向切开来看，给你一份更细一点、也更有互联网语境的人格画像。<strong>GBTI</strong> 与 <strong>CBTI</strong> 则作为补充测试，用更轻量的方式延伸这种观察。</p>
             <div class="hero-stats">
               <div class="hero-stat"><strong>3</strong><span>已可用测试</span></div>
               <div class="hero-stat"><strong>独立数据</strong><span>按测试拆分维护</span></div>
@@ -153,18 +153,41 @@
           </div>
           <div class="hero-side">
             <div class="hero-card">
-              <h2>测试说明</h2>
-              <p>SBTI 适合作为主测试入口，结果维度更完整，适合首次访问用户优先体验；GBTI 与 CBTI 则用于提供更轻量、更具场景化的补充测试内容。</p>
+              <h2>这个测试在测什么</h2>
+              <p>SBTI 关注的不只是“你像哪一类人”，而是你在自我认知、关系安全感、规则感、行动风格和社交边界上的具体倾向。它更像一份层次化的人格切片，而不是一句话打包定义你。</p>
             </div>
             <div class="hero-card">
-              <h2>使用方式</h2>
-              <p>选择任意测试后即可开始作答，结果会保存在当前设备，便于稍后查看与再次对比。分享时统一使用站点链接，便于直接回到首页重新开始测试。</p>
+              <h2>你会得到什么</h2>
+              <p>完成测试后，你会看到人格代号、核心解读和十五维度落点。它适合拿来自我观察、朋友互测和轻度分享，但不承担医学、心理或职业判断的角色。</p>
             </div>
           </div>
         </div>
       </section>
 
       <section class="card-grid">${cards}</section>
+
+      <section class="info-grid">
+        <article class="panel info-card">
+          <span class="info-kicker">About</span>
+          <h2>关于 SBTI</h2>
+          <p>SBTI 是本站的主测试，也是整个站点说明的核心。它基于五大模型、十五个维度来组织题目与结果，从人格感受、关系模式到行动风格，尝试给出一份比常规标签更细的娱乐向画像。</p>
+        </article>
+        <article class="panel info-card">
+          <span class="info-kicker">Structure</span>
+          <h2>测试结构</h2>
+          <p>当前版本包含 30 道主线题，含隐藏分支。测试采用逐题作答，系统会根据每个维度的落点组合出最终人格代号，并在结果页展示对应解读，而不是只返回一个简短结论。</p>
+        </article>
+        <article class="panel info-card">
+          <span class="info-kicker">Output</span>
+          <h2>结果说明</h2>
+          <p>完成测试后，你会看到人格代号、人格解读与十五维度评分。结果更适合做自我观察、朋友对照和轻量分享，不用于医学诊断、心理评估、职业筛选或其他高风险判断。</p>
+        </article>
+        <article class="panel info-card">
+          <span class="info-kicker">Extensions</span>
+          <h2>补充测试</h2>
+          <p>除 SBTI 外，站内还提供 GBTI 与 CBTI 两类场景化测试。它们不是主叙事，而是基于股市语境和程序员职场语境，对你的风格倾向做更轻一点、更好分享的补充观察。</p>
+        </article>
+      </section>
     `;
   }
 

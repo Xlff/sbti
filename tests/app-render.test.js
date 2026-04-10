@@ -122,6 +122,10 @@ function flushTimers() {
 });
 
 assert(shell.innerHTML.includes('CBTI'), 'Landing page should expose the CBTI entry card');
+assert(shell.innerHTML.includes('SBTI，人格测试里的另一种切法。'), 'Landing page should use the new user-facing SBTI headline');
+assert(shell.innerHTML.includes('关于 SBTI'), 'Landing page should include the formal SBTI explainer section');
+assert(shell.innerHTML.includes('30 道主线题，含隐藏分支'), 'Landing page should describe the real SBTI test structure');
+assert(!shell.innerHTML.includes('主站核心内容'), 'Landing page should not use developer-facing hero copy');
 
 shell.triggerAction('open-quiz', { quizId: 'cbti' });
 assert(shell.innerHTML.includes('CBTI 程序员人格测试'), 'Opening CBTI should render the workspace intro');
