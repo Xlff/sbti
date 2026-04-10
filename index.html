@@ -203,6 +203,86 @@
       justify-content: center;
       margin-top: 28px;
     }
+    .hero-cache {
+      width: min(100%, 760px);
+      margin-top: 22px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 16px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fbfefb, #f1f7f2);
+      text-align: left;
+      box-shadow: 0 14px 36px rgba(77, 106, 83, 0.08);
+    }
+    .hero-cache[hidden] {
+      display: none;
+    }
+    .hero-cache-image {
+      width: 112px;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 10px 26px rgba(77, 106, 83, 0.12);
+    }
+    .hero-cache-content {
+      min-width: 0;
+    }
+    .hero-cache-kicker {
+      font-size: 12px;
+      color: var(--accent-strong);
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .hero-cache-title {
+      font-size: clamp(22px, 3.4vw, 32px);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+    .hero-cache-desc {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .hero-cache-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .hero-cache-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(108, 141, 113, 0.1);
+      color: var(--accent-strong);
+      border: 1px solid rgba(108, 141, 113, 0.16);
+    }
+    .hero-cache-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .hero-cache-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+    }
 
     @media (max-width: 640px) {
       .hero-mark {
@@ -210,6 +290,14 @@
         height: 72px;
         border-radius: 20px;
         margin-bottom: 16px;
+      }
+      .hero-cache {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+      .hero-cache-image {
+        width: 92px;
+        height: 92px;
       }
     }
 
@@ -779,6 +867,10 @@
       outline-offset: 2px;
     }
     .btn-primary:active { transform: translateY(1px); box-shadow: 0 4px 12px rgba(77,106,83,0.12); }
+    .btn-primary.is-inactive {
+      opacity: 0.74;
+      box-shadow: 0 8px 18px rgba(77, 106, 83, 0.12);
+    }
     .btn-secondary:active { transform: translateY(1px); background: var(--soft); }
 
     /* ── Selected Option Glow ── */
@@ -792,9 +884,19 @@
     .question {
       animation: fadeSlideUp .35s ease both;
     }
+    .question.question-focus {
+      border-color: var(--accent-strong);
+      box-shadow: 0 0 0 3px rgba(77, 106, 83, 0.18), var(--shadow);
+      animation: questionPulse .9s ease;
+    }
     @keyframes fadeSlideUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes questionPulse {
+      0% { transform: translateY(0); }
+      30% { transform: translateY(-2px); }
+      100% { transform: translateY(0); }
     }
 
     /* ── Progress Bar Shimmer ── */
@@ -851,6 +953,22 @@
         <img class="hero-mark" src="./android-chrome-512x512.png" alt="SBTI 图标" width="128" height="128" />
         <h1>MBTI已经过时，SBTI来了。</h1>
         <p class="sub">30道题 · 15个维度 · 测出你独一无二的人格代号</p>
+        <section id="cachedResultCard" class="hero-cache" aria-label="上次测试结果" hidden>
+          <img id="cachedResultImage" class="hero-cache-image" alt="上次测试结果图" width="112" height="112" />
+          <div class="hero-cache-content">
+            <div class="hero-cache-kicker">上次测出来的人格画像</div>
+            <h2 id="cachedResultTitle" class="hero-cache-title">CTRL（拿捏者）</h2>
+            <p id="cachedResultDesc" class="hero-cache-desc"></p>
+            <div class="hero-cache-meta">
+              <span id="cachedResultBadge" class="hero-cache-pill"></span>
+              <span id="cachedResultTime"></span>
+            </div>
+            <p class="hero-cache-note">结果已缓存在当前设备。你可以直接回看，也可以重新做一遍，新的提交结果会覆盖旧缓存。</p>
+            <div class="hero-cache-actions">
+              <button id="viewCachedResultBtn" class="btn-secondary" type="button">查看上次结果</button>
+            </div>
+          </div>
+        </section>
         <div class="hero-actions hero-actions-single">
           <button id="startBtn" class="btn-primary">开始测试</button>
         </div>
@@ -883,7 +1001,7 @@
           <div class="hint" id="testHint">全选完才会放行。世界已经够乱了，起码把题做完整。</div>
           <div style="display:flex; gap:12px; flex-wrap:wrap;">
             <button id="backIntroBtn" class="btn-secondary">返回首页</button>
-            <button id="submitBtn" class="btn-primary" disabled>提交并查看结果</button>
+            <button id="submitBtn" class="btn-primary is-inactive" type="button" aria-disabled="true">提交并查看结果</button>
           </div>
         </div>
       </div>
@@ -945,7 +1063,121 @@
   </main>
 
   
+  <script src="/sbti-helpers.js"></script>
   <script>
+    const SBTIHelpers = window.SBTIHelpers || (() => {
+      const RESULT_CACHE_KEY = 'sbti:last-result:v1';
+
+      function getFirstUnansweredQuestionId(visibleQuestions, answers) {
+        const first = visibleQuestions.find((question) => answers[question.id] === undefined);
+        return first ? first.id : null;
+      }
+
+      function normalizeScoreMap(map) {
+        if (!map || typeof map !== 'object') return {};
+        return Object.fromEntries(
+          Object.entries(map)
+            .filter(([key, value]) => (typeof key === 'string') && (typeof value === 'string' || typeof value === 'number'))
+            .map(([key, value]) => [key, value])
+        );
+      }
+
+      function buildCachedResultPayload(result) {
+        return {
+          version: 1,
+          savedAt: Number(result.savedAt || Date.now()),
+          modeKicker: String(result.modeKicker || ''),
+          badge: String(result.badge || ''),
+          sub: String(result.sub || ''),
+          special: Boolean(result.special),
+          imageSrc: String(result.imageSrc || ''),
+          type: {
+            code: String(result.type?.code || ''),
+            cn: String(result.type?.cn || ''),
+            desc: String(result.type?.desc || ''),
+            intro: String(result.type?.intro || '')
+          },
+          rawScores: normalizeScoreMap(result.rawScores),
+          levels: normalizeScoreMap(result.levels)
+        };
+      }
+
+      function isValidCachedResult(data) {
+        return Boolean(
+          data &&
+          data.version === 1 &&
+          Number.isFinite(data.savedAt) &&
+          data.type &&
+          typeof data.type.code === 'string' &&
+          data.type.code &&
+          typeof data.type.cn === 'string' &&
+          typeof data.type.desc === 'string' &&
+          typeof data.type.intro === 'string' &&
+          typeof data.modeKicker === 'string' &&
+          typeof data.badge === 'string' &&
+          typeof data.sub === 'string' &&
+          typeof data.special === 'boolean' &&
+          typeof data.imageSrc === 'string' &&
+          data.rawScores &&
+          typeof data.rawScores === 'object' &&
+          data.levels &&
+          typeof data.levels === 'object'
+        );
+      }
+
+      function readCachedResult(storage) {
+        if (!storage || typeof storage.getItem !== 'function') return null;
+
+        try {
+          const raw = storage.getItem(RESULT_CACHE_KEY);
+          if (!raw) return null;
+
+          const parsed = JSON.parse(raw);
+          return isValidCachedResult(parsed) ? parsed : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function writeCachedResult(storage, result) {
+        if (!storage || typeof storage.setItem !== 'function') return false;
+
+        try {
+          const payload = buildCachedResultPayload(result);
+          storage.setItem(RESULT_CACHE_KEY, JSON.stringify(payload));
+          return true;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function formatSavedAt(timestamp) {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+      }
+
+      function getQuestionFocusTargetSelector() {
+        return '.question';
+      }
+
+      return {
+        RESULT_CACHE_KEY,
+        getFirstUnansweredQuestionId,
+        buildCachedResultPayload,
+        isValidCachedResult,
+        readCachedResult,
+        writeCachedResult,
+        formatSavedAt,
+        getQuestionFocusTargetSelector
+      };
+    })();
+
     const dimensionMeta = {
       S1: { name: 'S1 自尊自信', model: '自我模型' },
       S2: { name: 'S2 自我清晰度', model: '自我模型' },
@@ -1654,6 +1886,20 @@
     const progressText = document.getElementById('progressText');
     const submitBtn = document.getElementById('submitBtn');
     const testHint = document.getElementById('testHint');
+    const cachedResultCard = document.getElementById('cachedResultCard');
+    const cachedResultImage = document.getElementById('cachedResultImage');
+    const cachedResultTitle = document.getElementById('cachedResultTitle');
+    const cachedResultDesc = document.getElementById('cachedResultDesc');
+    const cachedResultBadge = document.getElementById('cachedResultBadge');
+    const cachedResultTime = document.getElementById('cachedResultTime');
+    const viewCachedResultBtn = document.getElementById('viewCachedResultBtn');
+    const cacheStorage = (() => {
+      try {
+        return window.localStorage;
+      } catch (error) {
+        return null;
+      }
+    })();
 
     function showScreen(name) {
       Object.entries(screens).forEach(([key, el]) => {
@@ -1691,6 +1937,8 @@
       visibleQuestions.forEach((q, index) => {
         const card = document.createElement('article');
         card.className = 'question';
+        card.dataset.questionId = q.id;
+        card.tabIndex = -1;
         card.innerHTML = `
           <div class="question-meta">
             <div class="badge">第 ${index + 1} 题</div>
@@ -1718,6 +1966,7 @@
         input.addEventListener('change', (e) => {
           const { name, value } = e.target;
           app.answers[name] = Number(value);
+          e.target.closest('.question')?.classList.remove('question-focus');
 
           if (name === 'drink_gate_q1') {
             if (Number(value) !== 3) {
@@ -1742,10 +1991,51 @@
       progressBar.style.width = `${percent}%`;
       progressText.textContent = `${done} / ${total}`;
       const complete = done === total && total > 0;
-      submitBtn.disabled = !complete;
+      submitBtn.classList.toggle('is-inactive', !complete);
+      submitBtn.setAttribute('aria-disabled', String(!complete));
       testHint.textContent = complete
         ? '都做完了。现在可以把你的电子魂魄交给结果页审判。'
         : '全选完才会放行。世界已经够乱了，起码把题做完整。';
+    }
+
+    function createResultViewModel(result) {
+      const type = result.finalType;
+      return {
+        modeKicker: result.modeKicker,
+        title: `${type.code}（${type.cn}）`,
+        badge: result.badge,
+        sub: result.sub,
+        desc: type.desc,
+        intro: type.intro,
+        special: result.special,
+        imageSrc: TYPE_IMAGES[type.code] || '',
+        imageAlt: `${type.code}（${type.cn}）`,
+        type: {
+          code: type.code,
+          cn: type.cn,
+          desc: type.desc,
+          intro: type.intro
+        },
+        rawScores: result.rawScores,
+        levels: result.levels
+      };
+    }
+
+    function createResultViewModelFromCache(cached) {
+      return {
+        modeKicker: cached.modeKicker,
+        title: `${cached.type.code}（${cached.type.cn}）`,
+        badge: cached.badge,
+        sub: cached.sub,
+        desc: cached.type.desc,
+        intro: cached.type.intro,
+        special: cached.special,
+        imageSrc: cached.imageSrc,
+        imageAlt: `${cached.type.code}（${cached.type.cn}）`,
+        type: cached.type,
+        rawScores: cached.rawScores,
+        levels: cached.levels
+      };
     }
 
     function sumToLevel(score) {
@@ -1855,26 +2145,22 @@
       }).join('');
     }
 
-    function renderResult() {
-      const result = computeResult();
-      const type = result.finalType;
-
-      document.getElementById('resultModeKicker').textContent = result.modeKicker;
-      document.getElementById('resultTypeName').textContent = `${type.code}（${type.cn}）`;
-      document.getElementById('matchBadge').textContent = result.badge;
-      document.getElementById('resultTypeSub').textContent = result.sub;
-      document.getElementById('resultDesc').textContent = type.desc;
-      document.getElementById('posterCaption').textContent = type.intro;
-      document.getElementById('funNote').textContent = result.special
+    function applyResultView(viewModel) {
+      document.getElementById('resultModeKicker').textContent = viewModel.modeKicker;
+      document.getElementById('resultTypeName').textContent = viewModel.title;
+      document.getElementById('matchBadge').textContent = viewModel.badge;
+      document.getElementById('resultTypeSub').textContent = viewModel.sub;
+      document.getElementById('resultDesc').textContent = viewModel.desc;
+      document.getElementById('posterCaption').textContent = viewModel.intro;
+      document.getElementById('funNote').textContent = viewModel.special
         ? '本测试仅供娱乐。隐藏人格和傻乐兜底都属于作者故意埋的损招，请勿把它当成医学、心理学、相学、命理学或灵异学依据。'
         : '本测试仅供娱乐，别拿它当诊断、面试、相亲、分手、招魂、算命或人生判决书。你可以笑，但别太当真。';
 
       const posterBox = document.getElementById('posterBox');
       const posterImage = document.getElementById('posterImage');
-      const imageSrc = TYPE_IMAGES[type.code];
-      if (imageSrc) {
-        posterImage.src = imageSrc;
-        posterImage.alt = `${type.code}（${type.cn}）`;
+      if (viewModel.imageSrc) {
+        posterImage.src = viewModel.imageSrc;
+        posterImage.alt = viewModel.imageAlt;
         posterBox.classList.remove('no-image');
       } else {
         posterImage.removeAttribute('src');
@@ -1882,8 +2168,67 @@
         posterBox.classList.add('no-image');
       }
 
-      renderDimList(result);
+      renderDimList(viewModel);
       showScreen('result');
+    }
+
+    function renderCachedSummary() {
+      const cached = SBTIHelpers.readCachedResult(cacheStorage);
+      if (!cached) {
+        cachedResultCard.hidden = true;
+        return;
+      }
+
+      cachedResultTitle.textContent = `${cached.type.code}（${cached.type.cn}）`;
+      cachedResultDesc.textContent = cached.type.desc;
+      cachedResultBadge.textContent = cached.badge;
+      cachedResultTime.textContent = `缓存于 ${SBTIHelpers.formatSavedAt(cached.savedAt)}`;
+      cachedResultImage.src = cached.imageSrc || './android-chrome-512x512.png';
+      cachedResultImage.alt = `${cached.type.code}（${cached.type.cn}）`;
+      cachedResultCard.hidden = false;
+    }
+
+    function scrollToFirstUnansweredQuestion() {
+      const visibleQuestions = getVisibleQuestions();
+      const questionId = SBTIHelpers.getFirstUnansweredQuestionId(visibleQuestions, app.answers);
+      if (!questionId) return false;
+
+      const targetIndex = visibleQuestions.findIndex(question => question.id === questionId);
+      const targetCard = questionList.querySelector(`[data-question-id="${questionId}"]`);
+      if (!targetCard) return false;
+
+      targetCard.classList.remove('question-focus');
+      void targetCard.offsetWidth;
+      targetCard.classList.add('question-focus');
+      targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetCard.focus({ preventScroll: true });
+      window.setTimeout(() => targetCard.classList.remove('question-focus'), 1800);
+      testHint.textContent = `第 ${targetIndex + 1} 题还没选，先把这一题补上。`;
+      return true;
+    }
+
+    function renderResult() {
+      const result = computeResult();
+      const viewModel = createResultViewModel(result);
+
+      SBTIHelpers.writeCachedResult(cacheStorage, {
+        savedAt: Date.now(),
+        modeKicker: viewModel.modeKicker,
+        badge: viewModel.badge,
+        sub: viewModel.sub,
+        special: viewModel.special,
+        imageSrc: viewModel.imageSrc,
+        type: viewModel.type,
+        rawScores: viewModel.rawScores,
+        levels: viewModel.levels
+      });
+      renderCachedSummary();
+      applyResultView(viewModel);
+    }
+
+    function handleSubmit() {
+      if (scrollToFirstUnansweredQuestion()) return;
+      renderResult();
     }
 
     function startTest(preview = false) {
@@ -1900,11 +2245,17 @@
       showScreen('test');
     }
 
+    renderCachedSummary();
     document.getElementById('startBtn').addEventListener('click', () => startTest(false));
     document.getElementById('backIntroBtn').addEventListener('click', () => showScreen('intro'));
-    document.getElementById('submitBtn').addEventListener('click', renderResult);
+    document.getElementById('submitBtn').addEventListener('click', handleSubmit);
     document.getElementById('restartBtn').addEventListener('click', () => startTest(false));
     document.getElementById('toTopBtn').addEventListener('click', () => showScreen('intro'));
+    viewCachedResultBtn.addEventListener('click', () => {
+      const cached = SBTIHelpers.readCachedResult(cacheStorage);
+      if (!cached) return;
+      applyResultView(createResultViewModelFromCache(cached));
+    });
   </script>
 
 <!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d44d4fe6b56c4b46892c3f789d8ac0c5"}'></script><!-- Cloudflare Pages Analytics --></body>
