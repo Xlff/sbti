@@ -32,6 +32,14 @@ assert(
   'Index metadata should prioritize SBTI in the site description'
 );
 assert(
+  html.includes('name="keywords"'),
+  'Index should include a keywords meta tag'
+);
+assert(
+  html.includes('SBTI人格测试,SBTI,人格测试,人格类型测试'),
+  'Keywords meta tag should prioritize SBTI-related terms'
+);
+assert(
   html.includes('SBTI 人格测试，多维人格测试集合站'),
   'Page title should prioritize SBTI for SEO'
 );
@@ -48,7 +56,7 @@ assert(
   'Index should initialize Google Tag with the production measurement id'
 );
 assert(
-  html.includes("window.location.protocol !== 'file:'"),
+  html.includes('window.location.protocol !== "file:"'),
   'Analytics loader should skip execution for file://'
 );
 
