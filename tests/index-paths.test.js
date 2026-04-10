@@ -40,6 +40,14 @@ assert(
   'Index metadata should still mention the other connected quizzes as secondary'
 );
 assert(
+  html.includes('https://www.googletagmanager.com/gtag/js?id=G-DDKP7PJBNV'),
+  'Index should include the Google Tag script URL'
+);
+assert(
+  html.includes('gtag("config", "G-DDKP7PJBNV")'),
+  'Index should initialize Google Tag with the production measurement id'
+);
+assert(
   html.includes("window.location.protocol !== 'file:'"),
   'Analytics loader should skip execution for file://'
 );
